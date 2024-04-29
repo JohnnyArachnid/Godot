@@ -1,0 +1,235 @@
+[gd_scene load_steps=37 format=3 uid="uid://mdea3ohxdyn0"]
+
+[ext_resource type="Texture2D" uid="uid://qha2ou4ojnle" path="res://graphics/imp/imp_red/ready_1.png" id="1_3f3t7"]
+[ext_resource type="Script" path="res://Game/Enemies/Imp/imp.gd" id="1_nu7pv"]
+[ext_resource type="Texture2D" uid="uid://b61qhxd35byex" path="res://graphics/imp/imp_red/walk_1.png" id="6_pehxt"]
+[ext_resource type="Texture2D" uid="uid://dolsjam5mylos" path="res://graphics/imp/imp_red/walk_2.png" id="7_g1iin"]
+[ext_resource type="Texture2D" uid="uid://bjr5v4ktfuhel" path="res://graphics/imp/imp_red/fall_back_2.png" id="7_iflwm"]
+[ext_resource type="Texture2D" uid="uid://k1wg3egsrrb5" path="res://graphics/imp/imp_red/fall_back_3.png" id="8_e2l5x"]
+[ext_resource type="Texture2D" uid="uid://bq80o8sm8ycge" path="res://graphics/imp/imp_red/walk_3.png" id="8_s1yfq"]
+[ext_resource type="Texture2D" uid="uid://5p3lhqvjrrx8" path="res://graphics/imp/imp_red/fall_back_4.png" id="9_3ddd0"]
+[ext_resource type="Texture2D" uid="uid://dleqwqk0m8cq6" path="res://graphics/imp/imp_red/walk_4.png" id="9_ajwkh"]
+[ext_resource type="Texture2D" uid="uid://cwllrweul1dmy" path="res://graphics/imp/imp_red/fall_back_5.png" id="10_fpx6w"]
+[ext_resource type="Texture2D" uid="uid://b6vf2eysey21o" path="res://graphics/imp/imp_red/walk_5.png" id="10_y2lsn"]
+[ext_resource type="Texture2D" uid="uid://b378gs000l7ah" path="res://graphics/imp/imp_red/walk_6.png" id="11_4ttrn"]
+[ext_resource type="Script" path="res://Game/Enemies/Damagable.gd" id="12_6pkkh"]
+[ext_resource type="Texture2D" uid="uid://bls3rlcsyffgl" path="res://graphics/imp/imp_red/hit_1.png" id="13_c56sn"]
+[ext_resource type="Script" path="res://Game/Player/CharacterStateMachine.gd" id="13_vw6wb"]
+[ext_resource type="Texture2D" uid="uid://bgrrl4isd06x6" path="res://graphics/imp/imp_red/hit_2.png" id="14_ad5vf"]
+[ext_resource type="Texture2D" uid="uid://brp5eblbtcht5" path="res://graphics/imp/imp_red/hit_3.png" id="15_014ye"]
+[ext_resource type="Script" path="res://Game/Enemies/HitState.gd" id="15_cnx56"]
+[ext_resource type="Script" path="res://Game/Enemies/Imp/Walk.gd" id="18_ere51"]
+[ext_resource type="Script" path="res://Game/Enemies/Imp/Air.gd" id="19_57ace"]
+[ext_resource type="Script" path="res://Game/Enemies/Imp/DeadState.gd" id="19_xgd52"]
+[ext_resource type="Script" path="res://Game/Enemies/Imp/Follow.gd" id="22_56fi8"]
+[ext_resource type="Script" path="res://Game/Enemies/Imp/Attack.gd" id="23_u4qw6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mtg3j"]
+size = Vector2(85.4444, 33.1111)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hu4q0"]
+size = Vector2(20, 31)
+
+[sub_resource type="Animation" id="Animation_xsb43"]
+resource_name = "dead"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flippendo/Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3001, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("1_3f3t7"), ExtResource("7_iflwm"), ExtResource("8_e2l5x"), ExtResource("9_3ddd0"), ExtResource("10_fpx6w")]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterStateMachine/Dead")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"on_death_anim_ended"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_577xi"]
+resource_name = "hit"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flippendo/Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("13_c56sn"), ExtResource("14_ad5vf"), ExtResource("15_014ye")]
+}
+
+[sub_resource type="Animation" id="Animation_ah2h6"]
+resource_name = "walk"
+length = 0.55
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flippendo/Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0001, 0.1001, 0.2001, 0.3, 0.4001, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("6_pehxt"), ExtResource("7_g1iin"), ExtResource("8_s1yfq"), ExtResource("9_ajwkh"), ExtResource("10_y2lsn"), ExtResource("11_4ttrn")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2v8tl"]
+_data = {
+"dead": SubResource("Animation_xsb43"),
+"hit": SubResource("Animation_577xi"),
+"walk": SubResource("Animation_ah2h6")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_l3vpp"]
+animation = &"dead"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lsiyv"]
+animation = &"hit"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ilhkn"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_elh81"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_or0o4"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dw8we"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_fxlol"]
+states/dead/node = SubResource("AnimationNodeAnimation_l3vpp")
+states/dead/position = Vector2(661, 100)
+states/hit/node = SubResource("AnimationNodeAnimation_lsiyv")
+states/hit/position = Vector2(541, 100)
+states/walk/node = SubResource("AnimationNodeAnimation_ilhkn")
+states/walk/position = Vector2(412, 100)
+transitions = ["Start", "walk", SubResource("AnimationNodeStateMachineTransition_elh81"), "walk", "hit", SubResource("AnimationNodeStateMachineTransition_or0o4"), "hit", "dead", SubResource("AnimationNodeStateMachineTransition_dw8we")]
+
+[node name="Imp" type="CharacterBody2D"]
+scale = Vector2(4.5, 4.5)
+collision_layer = 4
+script = ExtResource("1_nu7pv")
+
+[node name="Flippendo" type="Node2D" parent="."]
+
+[node name="Debug" type="Node2D" parent="Flippendo"]
+
+[node name="DebugWallRaycast" type="Line2D" parent="Flippendo/Debug"]
+points = PackedVector2Array(0, 0, -17.778, 0)
+width = 2.0
+default_color = Color(1, 0, 0.12549, 1)
+
+[node name="DebugFloorRaycast" type="Line2D" parent="Flippendo/Debug"]
+points = PackedVector2Array(0, 0, -17.778, 19.556)
+width = 2.0
+default_color = Color(0, 0.321569, 1, 1)
+
+[node name="DebugState" type="Label" parent="Flippendo/Debug"]
+offset_left = -23.1111
+offset_top = -35.5556
+offset_right = 22.8889
+offset_bottom = -12.5556
+text = "E"
+
+[node name="DebugDetection" type="ColorRect" parent="Flippendo/Debug"]
+offset_left = -96.0
+offset_top = -14.0
+offset_right = -11.0
+offset_bottom = 18.0
+color = Color(1, 1, 0.027451, 0.392157)
+
+[node name="WallCheck" type="RayCast2D" parent="Flippendo"]
+target_position = Vector2(-17.7778, 0)
+
+[node name="FloorCheck" type="RayCast2D" parent="Flippendo"]
+target_position = Vector2(-17.7778, 19.5556)
+
+[node name="Sprite2D" type="Sprite2D" parent="Flippendo"]
+position = Vector2(-0.944445, 0.444445)
+scale = Vector2(0.962222, 0.981481)
+texture = ExtResource("6_pehxt")
+flip_h = true
+
+[node name="DetectionArea" type="Area2D" parent="Flippendo"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Flippendo/DetectionArea"]
+position = Vector2(-53.2778, 1.77778)
+shape = SubResource("RectangleShape2D_mtg3j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.77778)
+shape = SubResource("RectangleShape2D_hu4q0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2v8tl")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2v8tl")
+}
+tree_root = SubResource("AnimationNodeStateMachine_fxlol")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="Damagable" type="Node" parent="."]
+script = ExtResource("12_6pkkh")
+
+[node name="CharacterStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "animation_tree", "current_state")]
+script = ExtResource("13_vw6wb")
+character = NodePath("..")
+animation_tree = NodePath("../AnimationTree")
+current_state = NodePath("Walk")
+
+[node name="Walk" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("air_state")]
+script = ExtResource("18_ere51")
+air_state = NodePath("../Air")
+
+[node name="Air" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("walk_state")]
+script = ExtResource("19_57ace")
+walk_state = NodePath("../Walk")
+
+[node name="Dead" type="Node" parent="CharacterStateMachine"]
+script = ExtResource("19_xgd52")
+
+[node name="Hit" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("damageable", "sprite2D", "dead_state", "return_state")]
+script = ExtResource("15_cnx56")
+damageable = NodePath("../../Damagable")
+sprite2D = NodePath("../../Flippendo/Sprite2D")
+dead_state = NodePath("../Dead")
+return_state = NodePath("../Follow")
+can_move = false
+
+[node name="Timer" type="Timer" parent="CharacterStateMachine/Hit"]
+wait_time = 0.25
+one_shot = true
+
+[node name="Follow" type="Node" parent="CharacterStateMachine"]
+script = ExtResource("22_56fi8")
+
+[node name="Attack" type="Node" parent="CharacterStateMachine"]
+script = ExtResource("23_u4qw6")
+
+[connection signal="timeout" from="CharacterStateMachine/Hit/Timer" to="CharacterStateMachine/Hit" method="_on_timer_timeout"]
